@@ -1,0 +1,15 @@
+.git
+.gitignore
+.github
+
+docker-compose*.yaml
+.docker
+
+node_modules
+vendor
+
+tests/_output
+tests/_cache
+
+.env
+.env.*

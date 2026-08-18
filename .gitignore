@@ -58,3 +58,6 @@ phpstan.neon
 /tests/e2e/output/
 /tests/e2e/.env.local
 !/tests/e2e/.env
+.env.prod
+
+

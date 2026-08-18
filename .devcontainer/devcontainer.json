@@ -1,31 +1,18 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/php-mariadb
 {
-    "name": "GLPI docker devcontainer",
-    "dockerComposeFile": "../docker-compose.yaml",
-    "service": "app",
+    "name": "GLPI Somos Dev",
+    "dockerComposeFile": "../docker-compose.dev.yaml",
+    "service": "glpi",
     "workspaceFolder": "/var/www/glpi",
 
-    "forwardPorts": [8080, 8090, 8025],
+    "forwardPorts": [8091],
+
     "portsAttributes": {
-        "8080": {
-            "label": "GLPI"
-        },
-        "8090": {
-            "label": "DBGate"
-        },
-        "8025": {
-            "label": "Mailpit"
-        },
-        "9637": {
-            "label": "Webpack dev server"
+        "8091": {
+            "label": "GLPI Dev",
+            "onAutoForward": "openBrowser"
         }
     },
 
-    // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "composer build",
-
-    // automatically install these extensions when opening the dev container in vscode
     "customizations": {
         "vscode": {
             "extensions": [

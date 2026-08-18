@@ -1,0 +1,69 @@
+name: glpi
+
+services:
+  glpi:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        GLPI_MARKETPLACE_DIR: /var/glpi/marketplace
+
+    image: somos-glpi:11.0-somos
+    restart: unless-stopped
+
+    mem_limit: 768m
+
+    environment:
+      GLPI_DB_HOST: db
+      GLPI_DB_PORT: 3306
+      GLPI_DB_NAME: ${GLPI_DB_NAME}
+      GLPI_DB_USER: ${GLPI_DB_USER}
+      GLPI_DB_PASSWORD: ${GLPI_DB_PASSWORD}
+
+    volumes:
+      - glpi_data:/var/glpi
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    networks:
+      glpi_internal:
+        aliases:
+          - glpi
+
+  db:
+    image: mariadb:11.8
+    restart: unless-stopped
+
+    mem_limit: 768m
+
+    environment:
+      MARIADB_DATABASE: ${GLPI_DB_NAME}
+      MARIADB_USER: ${GLPI_DB_USER}
+      MARIADB_PASSWORD: ${GLPI_DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${GLPI_DB_ROOT_PASSWORD}
+
+    volumes:
+      - db_data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        - CMD
+        - healthcheck.sh
+        - --connect
+        - --innodb_initialized
+      start_period: 30s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - glpi_internal
+
+networks:
+  glpi_internal:
+
+volumes:
+  glpi_data:
+  db_data:

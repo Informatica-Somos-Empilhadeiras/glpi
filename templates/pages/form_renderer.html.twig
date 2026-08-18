@@ -38,6 +38,7 @@
    form's title #}
 
 {% block content_body %}
+    {% include "components/somos/form/styles.twig" %}
     {# Is this a single or multi sections forms ? #}
     {% set is_single_section_form = form.getSections()|length == 1 %}
 
@@ -49,11 +50,10 @@
         id="forms_form_answers"
         method="POST"
         action="{{ path("/Form/SubmitAnswers") }}"
-        {# The pointer-events-none class will be removed by the JS controller once it is loaded #}
-        class="pointer-events-none"
+        class="pointer-events-none somos-form"
         data-glpi-form-render-layout="{{ form.fields.render_layout }}"
     >
-        <div class="form-renderer mt-n5">
+        <div class="form-renderer mt-n5 somos-form__renderer">
 
             {# Form header: title and description #}
             <div

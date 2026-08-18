@@ -1,0 +1,163 @@
+<style>
+/* ------------------------------------------------------------
+   HERO (Área de Busca) e OVERLAY
+   ------------------------------------------------------------ */
+.somos-helpdesk-hero {
+    position: relative;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    /* Qualquer regra de overflow ou background atrelada a esta classe foi removida */
+}
+
+/* Camada dedicada e travada para os elementos visuais de fundo */
+.somos-helpdesk-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #00663B 0%, #00542f 48%, #004424 100%); /*[cite: 2] */
+}
+
+.somos-helpdesk-hero__bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    background: linear-gradient(135deg, transparent 0%, transparent 22%, #90EB54 22%, #90EB54 28%, transparent 28%, transparent 42%, #90EB54 42%, #90EB54 47%, transparent 47%); /*[cite: 2] */
+    transform: skewX(-18deg) scale(1.25);
+}
+
+.somos-helpdesk-hero__bg::after {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    right: -170px;
+    top: -170px;
+    border: 70px solid rgba(144, 235, 84, 0.15); /*[cite: 2] */
+    border-radius: 50%;
+}
+
+/* Conteúdo flutuante elevado para sobrepor os cards */
+.somos-helpdesk-hero__content {
+    position: relative;
+    z-index: 20;
+    width: min(100%, 900px);
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 7rem;
+    text-align: center;
+}
+
+.somos-helpdesk-hero__title {
+    margin: 0 0 0.9rem;
+    color: #ffffff;
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.somos-helpdesk-hero__subtitle {
+    max-width: 620px;
+    margin: 0 auto 2.5rem;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 1.05rem;
+    line-height: 1.55;
+}
+
+.somos-helpdesk-hero__search {
+    position: relative;
+    z-index: 20;
+    width: min(100%, 680px);
+    margin: 0 auto;
+}
+
+.somos-helpdesk-hero__search .form-control {
+    height: 60px;
+    padding-left: 3.5rem !important;
+    padding-right: 8rem;
+    border: none;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #141414; /*[cite: 2] */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.somos-helpdesk-hero__search .form-control::placeholder {
+    color: #777777;
+}
+
+.somos-helpdesk-hero__search .input-icon-addon {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: #00663B; /*[cite: 2] */
+    font-size: 1.25rem;
+}
+
+.somos-helpdesk-hero__search-label {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
+    height: 44px;
+    border-radius: 999px;
+    background: #90EB54; /*[cite: 2] */
+    color: #141414; /*[cite: 2] */
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+#search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+}
+
+#search-results {
+    border-bottom-left-radius: 28px !important;
+    border-bottom-right-radius: 28px !important;
+    overflow: hidden !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    background: #ffffff !important;
+}
+
+@media (max-width: 767.98px) {
+    .somos-helpdesk-hero { min-height: 380px; }
+    .somos-helpdesk-hero__content { padding: 3.5rem 1rem 5rem; }
+    .somos-helpdesk-hero__search .form-control { padding-right: 1.5rem; }
+    .somos-helpdesk-hero__search-label { display: none; }
+}
+</style>
+
+<section class="somos-helpdesk-hero">
+    <!-- Nova camada dedicada exclusivamente para conter o vazamento do fundo -->
+    <div class="somos-helpdesk-hero__bg"></div>
+    
+    <div class="somos-helpdesk-hero__content">
+        <h1 class="somos-helpdesk-hero__title">Como podemos ajudar?</h1>
+        <p class="somos-helpdesk-hero__subtitle">Encontre uma solução, consulte seus chamados ou abra uma nova solicitação.</p>
+
+        {% if entity is defined and entity.isHelpdeskSearchBarEnabled() %}
+            <div id="search-overlay" class="search-overlay bg-dark"></div>
+            <div class="somos-helpdesk-hero__search">
+                <div class="input-icon search-bar-container">
+                    <span class="input-icon-addon"><i class="ti ti-search"></i></span>
+                    <input id="search-input" type="text" value="" class="form-control home-search" placeholder="{{ __("Search for knowledge base entries or forms") }}" data-testid="home-search">
+                    <span class="somos-helpdesk-hero__search-label">Pesquisar</span>
+                    <section id="search-results" class="position-absolute search-result-container w-100 d-none" aria-label="{{ __("Search results") }}"></section>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>

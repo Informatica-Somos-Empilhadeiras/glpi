@@ -1,0 +1,19 @@
+<a href="{{ tile.getTileUrl() }}" class="somos-helpdesk-card">
+    <div class="somos-helpdesk-card__icon">
+        {{ render_illustration(tile.getIllustration(), 72) }}
+    </div>
+
+    <h2 class="somos-helpdesk-card__title">
+        {{ tile.getTitle() }}
+    </h2>
+
+    {% if tile.getDescription() %}
+        <div class="somos-helpdesk-card__description">
+            {{ tile.getDescription()|safe_html }}
+        </div>
+    {% endif %}
+
+    <span class="somos-helpdesk-card__cta">
+        Acessar <span aria-hidden="true">&rarr;</span>
+    </span>
+</a>

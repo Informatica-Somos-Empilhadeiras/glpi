@@ -1,0 +1,58 @@
+name: glpi-dev
+
+services:
+  glpi:
+    build:
+      context: .
+      dockerfile: .docker/app/Dockerfile
+      args:
+        PHP_VERSION: "8.4"
+        HOST_GROUP_ID: "${HOST_GROUP_ID:-1000}"
+        HOST_USER_ID: "${HOST_USER_ID:-1000}"
+
+    restart: unless-stopped
+
+    volumes:
+      - .:/var/www/glpi:rw
+      - glpi_dev_php_ini:/usr/local/etc/php/custom_conf.d:rw
+
+    ports:
+      - "8091:80"
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    environment:
+      CYPRESS_BASE_URL: http://localhost:8091
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    image: mariadb:11.8
+    restart: unless-stopped
+
+    environment:
+      MARIADB_ROOT_PASSWORD: glpi-dev-root
+      MARIADB_DATABASE: glpi
+      MARIADB_USER: glpi
+      MARIADB_PASSWORD: glpi-dev
+
+    volumes:
+      - glpi_dev_db:/var/lib/mysql
+
+    healthcheck:
+      test:
+        - CMD
+        - healthcheck.sh
+        - --connect
+        - --innodb_initialized
+      start_period: 30s
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  glpi_dev_db:
+  glpi_dev_php_ini:
