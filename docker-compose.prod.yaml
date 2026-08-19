@@ -22,6 +22,7 @@ services:
 
     volumes:
       - glpi_data:/var/glpi
+      - .:/var/www/glpi:rw
 
     depends_on:
       db:
