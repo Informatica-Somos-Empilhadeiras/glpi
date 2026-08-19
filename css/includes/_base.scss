@@ -172,9 +172,11 @@ body.in_modal {
 
 .page {
     .glpi-logo {
-        background: var(--glpi-logo) no-repeat;
+        background: var(--glpi-logo) no-repeat center center;
+        background-size: contain;
+        width: 200px;
         height: 55px;
-        width: 100px;
+        display: block;
     }
 
     .page-body {
@@ -355,8 +357,11 @@ body.in_modal {
         --logo: var(--glpi-logo-dark-login);
 
         content: var(--logo);
-        width: 200px;
-        height: 110px;
+        width: 280px;
+        height: 80px;
+        background: var(--logo) no-repeat center center;
+        background-size: contain;
+        display: block;
     }
 
     .main-content-card {
