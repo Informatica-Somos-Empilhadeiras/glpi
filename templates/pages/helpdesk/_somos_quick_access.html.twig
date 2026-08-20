@@ -4,8 +4,8 @@
    ------------------------------------------------------------ */
 .somos-quick-access {
     padding: 0 0 5rem;
-    background: #F0F0F0; /*[cite: 2] */
-    
+    background: #F0F0F0;
+
     /* Força o preenchimento cinza na tela toda (100vw) */
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -32,20 +32,18 @@
     padding: 2.5rem 2rem 1.5rem;
     background: #FFFFFF;
     border-radius: 16px;
-    border: none; /* Remoção da borda conforme restrição */
-    color: #141414; /*[cite: 2] */
+    border: none;
+    color: #141414;
     text-align: center;
     text-decoration: none;
-    /* Sombra neutra evidente no estado padrão */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     transition: transform 250ms ease, box-shadow 250ms ease;
     height: 100%;
 }
 
 .somos-helpdesk-card:hover {
     transform: translateY(-6px);
-    /* Sombra elevada projetando o verde corporativo[cite: 2] */
-    box-shadow: 0 16px 36px rgba(0, 102, 59, 0.15); 
+    box-shadow: 0 16px 36px rgba(0, 102, 59, 0.15);
 }
 
 /* ------------------------------------------------------------
@@ -60,29 +58,25 @@
     width: 90px;
     height: 90px;
     margin-bottom: 1.5rem;
-    
-    /* Forma orgânica (Folha/Gota) no verde claro[cite: 2] */
-    background: rgba(144, 235, 84, 0.22); 
+
+    background: rgba(144, 235, 84, 0.22);
     border-radius: 43% 57% 65% 35% / 46% 45% 55% 54%;
     transition: transform 300ms ease, border-radius 300ms ease;
 }
 
-/* Forma secundária de sobreposição (profundidade) */
 .somos-helpdesk-card__icon::before {
     content: "";
     position: absolute;
-    inset: -4px 6px 4px -6px; /* Deslocamento para criar a ilusão de sobreposição */
+    inset: -4px 6px 4px -6px;
     z-index: -1;
-    
-    /* Forma orgânica complementar no verde escuro[cite: 2] */
-    background: rgba(0, 102, 59, 0.06); 
+
+    background: rgba(0, 102, 59, 0.06);
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     transition: transform 300ms ease, border-radius 300ms ease;
 }
 
 .somos-helpdesk-card:hover .somos-helpdesk-card__icon {
     transform: translateY(-3px);
-    /* Mutação fluida da forma orgânica no hover */
     border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
 }
 
@@ -96,7 +90,7 @@
    ------------------------------------------------------------ */
 .somos-helpdesk-card__title {
     margin: 0 0 0.85rem;
-    color: #141414; /*[cite: 2] */
+    color: #141414;
     font-size: 1.15rem;
     font-weight: 700;
 }
@@ -112,20 +106,20 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: auto; 
+    margin-top: auto;
     padding-top: 1.5rem;
-    color: #00663B; /*[cite: 2] */
+    color: #00663B;
     font-size: 0.9rem;
     font-weight: 700;
     transition: color 200ms ease, transform 200ms ease;
 }
 
 .somos-helpdesk-card:hover .somos-helpdesk-card__cta {
-    color: #004424; 
+    color: #004424;
 }
 
 .somos-helpdesk-card:hover .somos-helpdesk-card__cta span {
-    transform: translateX(4px); /* Animação utilitária da seta */
+    transform: translateX(4px);
     transition: transform 200ms ease;
 }
 
@@ -137,8 +131,14 @@
 }
 
 @media (max-width: 575.98px) {
-    .somos-quick-access { padding: 0 1rem 3.5rem; }
-    .somos-quick-access__grid { grid-template-columns: 1fr; margin-top: -40px; }
+    .somos-quick-access {
+        padding: 0 1rem 3.5rem;
+    }
+
+    .somos-quick-access__grid {
+        grid-template-columns: 1fr;
+        margin-top: -40px;
+    }
 }
 </style>
 
@@ -153,14 +153,20 @@
 
             {% set show_tile = false %}
 
-            {# Formulários principais da Somos #}
+            {#
+             * TODOS os formulários configurados como cards
+             * na Home do Helpdesk serão exibidos.
+             *
+             * Antes estávamos limitando aos IDs [1, 2].
+             * Isso impedia novos formulários de aparecerem.
+             #}
             {% if tile is instanceof('Glpi\\Helpdesk\\Tile\\FormTile') %}
 
-                {% if tile.getFormId() in [1, 2] %}
-                    {% set show_tile = true %}
-                {% endif %}
+                {% set show_tile = true %}
 
-            {# Meus chamados #}
+            {#
+             * Meus chamados
+             #}
             {% elseif tile is instanceof('Glpi\\Helpdesk\\Tile\\GlpiPageTile') %}
 
                 {% if tile.getPage() == 'tickets' %}
